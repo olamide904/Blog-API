@@ -9,25 +9,26 @@ const {
   getArticleById,
   updateArticleById,
   deleteArticleById,
-  } = require('../controllers/article.controller.js')
+  } = require('../controllers/article.controller.js');
+
+const requireAuth = require('../middlewares/requireAuth.js');
 
 
-
-router.post('/articles', postArticle);
-
-
-router.get('/articles', getAllArticle);
+router.post('/articles', requireAuth, postArticle);
 
 
-router.get('/articles/search', getBySearch);
+router.get('/articles', requireAuth, getAllArticle);
 
 
-router.get('/articles/:id', getArticleById);
+router.get('/articles/search', requireAuth, getBySearch);
 
 
-router.put('/articles/:id', updateArticleById);
+router.get('/articles/:id', requireAuth, getArticleById);
 
 
-router.delete('/articles/:id', deleteArticleById);
+router.put('/articles/:id', requireAuth, updateArticleById);
+
+
+router.delete('/articles/:id', requireAuth, deleteArticleById);
 
 module.exports = router

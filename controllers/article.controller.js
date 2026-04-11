@@ -5,10 +5,9 @@ const ArticleModel = require('../models/article.model.js');
 
 //POST ARTICLE
 const postArticle = async (req, res, next) => {
- const articleSchema = Joi.object({
+const articleSchema = Joi.object({
  title: Joi.string().min(5).required(),
  content: Joi.string().min(15).required(),
- author: Joi.string().optional().default('Guest'),
  category: Joi.string().min(5).required(),
 })
 
@@ -17,7 +16,12 @@ const { error, value } = articleSchema.validate(req.body);
  return res.status(400).json({ error: error.details[0].message });
 }
 try {
-   const newArticle = new ArticleModel(value);
+   const newArticle = new ArticleModel({
+    title: req.body.title,
+    content: req.body.content,
+    author: req.user._id,
+    category: req.body.category,
+   });
   await newArticle.save();
 
 return res.status(200).json({ 
@@ -39,7 +43,7 @@ const getAllArticle = async (req, res, next) => {
  
 
 try { 
-  const articles = await ArticleModel.find({})
+  const articles = await ArticleModel.find({}).populate('author', 'name _id email')
     .sort({ createdAt: -1 })
     .limit(limit)
     .skip(skip);
@@ -111,7 +115,6 @@ const updateArticleById = async (req, res, next) => {
  const articleSchema = Joi.object({
  title: Joi.string().min(5).optional(),
  content: Joi.string().min(15).optional(),
- author: Joi.string().optional(),
  category: Joi.string().min(5).optional(),
 })
 
@@ -121,19 +124,24 @@ const { error, value } = articleSchema.validate(req.body);
 }
 try {
   const id = req.params.id;
-  const updatedArticle = await ArticleModel.findByIdAndUpdate(
-
-   id, {...req.body}, 
+  const updatedArticle = await ArticleModel.findOneAndUpdate(
+  {
+    _id: id,
+   author: req.user.userId, 
+  },
+   {
+    $set: value
+    }, 
   {
    new: true,
    runValidators: true 
    }
-);
+ );
 
 if (!updatedArticle) {
-return res.status(404).json({ message: `Article id ${id} not found` });
+return res.status(403).json({ message: `Article not found or not allowed to edit` });
     }
- res.status(200).json({
+ return res.status(200).json({
  message:`Article updated`,
  data: updatedArticle })
  
@@ -150,9 +158,12 @@ return res.status(404).json({ message: `Article id ${id} not found` });
 const deleteArticleById = async (req, res, next) => {
 try {
   const id = req.params.id;
- const article = await ArticleModel.findByIdAndDelete(id);
-  if(!article) { return res.status(404).json({ message: `Article ${id} not found`}) }
-  res.status(200).json({
+ const article = await ArticleModel.findByIdAndDelete({
+    _id: id,
+     author: req.user.id});
+  if(!article) { return res.status(403).json({
+        message: `Article not found or not allowed to delete`}) }
+  return res.status(200).json({
    message: 'Article deleted'
   })
 

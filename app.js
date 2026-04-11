@@ -11,6 +11,7 @@ const connectDB = require('./database/connectDB.js');
 const logger = require('./middlewares/logger.js');
 const errorHandler = require('./middlewares/errorHandler.js');
 const ArticleRoutes = require('./routes/article.route.js');
+const UserRoutes = require('./routes/user.route.js');
 
 
 
@@ -23,7 +24,7 @@ app.use(logger);
 
 app.use('/api', ArticleRoutes);
 
-
+app.use('/api/users', UserRoutes);
 
 app.use(errorHandler);
 

@@ -1,15 +1,10 @@
-const Joi = require('joi')
 const ArticleModel = require('../models/article.model.js');
-
+const articleSchema = require('../Validators/article.validator.js')
 
 
 //POST ARTICLE
 const postArticle = async (req, res, next) => {
-const articleSchema = Joi.object({
- title: Joi.string().min(5).required(),
- content: Joi.string().min(15).required(),
- category: Joi.string().min(5).required(),
-})
+
 
 const { error, value } = articleSchema.validate(req.body);
  if(error) { 
@@ -27,8 +22,8 @@ try {
 return res.status(200).json({ 
     message: 'Article created',
     data: newArticle }) 
-
-   } catch(error) {
+  
+  } catch(error) {
     console.error(error)
     next(error) 
     }
@@ -85,12 +80,6 @@ const getBySearch = async (req, res, next) => {
 
 
 
-
-
-
-
-
-
 //GET AN ARTICLE
 const getArticleById = async (req, res, next) => {
 try {
@@ -112,11 +101,7 @@ console.error(error)
 
 //EDIT AN ARTICLE
 const updateArticleById = async (req, res, next) => {
- const articleSchema = Joi.object({
- title: Joi.string().min(5).optional(),
- content: Joi.string().min(15).optional(),
- category: Joi.string().min(5).optional(),
-})
+ 
 
 const { error, value } = articleSchema.validate(req.body);
  if(error) {
@@ -162,7 +147,7 @@ try {
     _id: id,
      author: req.user.id});
   if(!article) { return res.status(403).json({
-        message: `Article not found or not allowed to delete`}) }
+   message: `Article not found or not allowed to delete`}) }
   return res.status(200).json({
    message: 'Article deleted'
   })

@@ -11,7 +11,6 @@ const articleSchema = new mongoose.Schema(
            required: true,
          },
  category: { type: String, required: true, minLength: 5, },
-
 }, { timestamps: true }
 );
 

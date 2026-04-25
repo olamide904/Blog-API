@@ -16,9 +16,9 @@ app.use(helmet());
 app.use(logger);
 
 
+app.use('/api/users', UserRoutes);
 app.use('/api', ArticleRoutes);
 
-app.use('/api/users', UserRoutes);
 
 app.use(errorHandler);
 

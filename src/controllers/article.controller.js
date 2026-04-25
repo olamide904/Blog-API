@@ -112,7 +112,7 @@ try {
   const updatedArticle = await ArticleModel.findOneAndUpdate(
   {
     _id: id,
-   author: req.user.userId, 
+   author: req.user._id, 
   },
    {
     $set: value
@@ -145,7 +145,8 @@ try {
   const id = req.params.id;
  const article = await ArticleModel.findByIdAndDelete({
     _id: id,
-     author: req.user.id});
+    author: req.user.id
+     });
   if(!article) { return res.status(403).json({
    message: `Article not found or not allowed to delete`}) }
   return res.status(200).json({

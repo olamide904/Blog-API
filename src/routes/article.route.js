@@ -13,8 +13,8 @@ const {
 
 const requireAuth = require('../middlewares/requireAuth.js');
 
-router.use(requireAuth);
 
+router.use(requireAuth);
 
 router.post('/articles', postArticle);
 
@@ -35,3 +35,7 @@ router.delete('/articles/:id', deleteArticleById);
 
 
 module.exports = router
+
+
+
+

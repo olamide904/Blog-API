@@ -14,7 +14,7 @@ try{
   return res.status(400).json({ message: 'User already exist' })
 }
 
-await hashPassword(password);
+const hashed = await hashPassword(password);
   
   const user = new UserModel({
     email: email,

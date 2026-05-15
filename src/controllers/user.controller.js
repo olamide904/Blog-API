@@ -64,5 +64,17 @@ try{
   } 
  };
 
+const uploadImage =  (req, res) => {
+    const fileUrl = req.file.path;
+    const fileName = req.file.filename;
 
-module.exports = { loginUser, registerUser }
+    console.log(fileName);
+
+    console.log(fileUrl);
+
+
+    res.send('Hello, from upload')
+
+}
+
+module.exports = { loginUser, registerUser, uploadImage }

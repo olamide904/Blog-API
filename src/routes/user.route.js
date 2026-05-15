@@ -1,8 +1,14 @@
 const express = require('express');
-const router = express.Router();
-const { registerUser, loginUser} = require('../controllers/user.controller.js');
+const { registerUser, loginUser, uploadImage } = require('../controllers/user.controller.js');
 const { validateRegister, validateLogin } = require('../Validators/user.validator.js');
+const upload = require('../middlewares/upload.js');
 
+
+
+const router = express.Router();
+
+
+router.post('/upload', upload.single('image'), uploadImage);
 
 router.post('/auth/sign-up', validateRegister, registerUser);
 

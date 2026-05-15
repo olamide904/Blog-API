@@ -106,7 +106,7 @@ const updateArticleById = async (req, res, next) => {
 const { error, value } = articleSchema.validate(req.body);
  if(error) {
  return res.status(400).json({ error: error.details[0].message });
-}
+};
 try {
   const id = req.params.id;
   const updatedArticle = await ArticleModel.findOneAndUpdate(

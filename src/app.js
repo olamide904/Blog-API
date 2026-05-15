@@ -3,8 +3,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const logger = require('./middlewares/logger.js');
 const errorHandler = require('./middlewares/errorHandler.js');
-const ArticleRoutes = require('./routes/article.route.js');
 const UserRoutes = require('./routes/user.route.js');
+const ArticleRoutes = require('./routes/article.route.js');
 
 
 const app = express();

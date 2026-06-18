@@ -59,21 +59,21 @@ try{
   };
   
   res.status(200).json({ message: "logged In", user: resUser, token });
- } catch (error) {
-  next(error);
-  } 
+} catch (error) {
+  next(error); 
+} 
  };
 
 const uploadImage =  (req, res) => {
-    const fileUrl = req.file.path;
-    const fileName = req.file.filename;
+    const fileUrls = req.files.map(file => file.path);
+    const fileNames = req.files.map(file => file.filename);
 
-    console.log(fileName);
+    console.log(fileNames);
 
-    console.log(fileUrl);
+    console.log(fileUrls);
 
 
-    res.send('Hello, from upload')
+    res.send('Upload successful')
 
 }
 

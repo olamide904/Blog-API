@@ -8,7 +8,7 @@ const upload = require('../middlewares/upload.js');
 const router = express.Router();
 
 
-router.post('/upload', upload.single('image'), uploadImage);
+router.post('/upload', upload.array('images', 5), uploadImage);
 
 router.post('/auth/sign-up', validateRegister, registerUser);
 

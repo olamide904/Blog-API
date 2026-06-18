@@ -54,7 +54,7 @@ All requests should be made to the following base URL:
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | /api/users/auth/sign-up | Register a new user |
-| POST | /api/auth/login | Login and receive a token |
+| POST | /api/users/auth/login | Login and receive a token |
 
 **POST Body (register):** `{ username, email, password }`
 **POST Body (login):** `{ email, password }`

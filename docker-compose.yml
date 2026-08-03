@@ -1,0 +1,8 @@
+services:
+  api:
+    build: .
+    container_name: blog-api
+    ports:
+      - "3004:3004" 
+    env_file:
+      - .env
